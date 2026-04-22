@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shop_manager/core/theme/app_theme.dart';
 
-/// A styled, reusable text field with icon support and validation.
+// reusable text field
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String label;
@@ -81,13 +81,13 @@ class _CustomTextFieldState extends State<CustomTextField>
             borderRadius: BorderRadius.circular(16),
             boxShadow: _isFocused
                 ? [
-                    BoxShadow(
-                      color: AppTheme.primary.withOpacity(0.25),
-                      blurRadius: 16,
-                      spreadRadius: 0,
-                      offset: const Offset(0, 4),
-                    ),
-                  ]
+              BoxShadow(
+                color: AppTheme.primary.withOpacity(0.25),
+                blurRadius: 16,
+                spreadRadius: 0,
+                offset: const Offset(0, 4),
+              ),
+            ]
                 : [],
           ),
           child: TextFormField(

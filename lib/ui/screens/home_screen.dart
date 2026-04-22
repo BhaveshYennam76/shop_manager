@@ -6,7 +6,7 @@ import 'package:shop_manager/providers/shop_provider.dart';
 import 'package:shop_manager/ui/screens/add_edit_shop_screen.dart';
 import 'package:shop_manager/ui/widgets/shop_card.dart';
 
-/// Main home screen displaying all shops in a card list.
+// main screen showing shops
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -32,14 +32,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       parent: _headerController,
       curve: Curves.easeOut,
     );
+
     _headerSlide = Tween<Offset>(
       begin: const Offset(0, -0.2),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _headerController,
-      curve: Curves.easeOutCubic,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _headerController,
+        curve: Curves.easeOutCubic,
+      ),
+    );
 
+    // load data after build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ShopProvider>().fetchShops();
     });
@@ -51,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
+  // open add screen
   void _openAddScreen() {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -71,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // open edit screen
   void _openEditScreen(shop) {
     Navigator.of(context).push(
       PageRouteBuilder(
@@ -92,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // confirm delete
   Future<void> _confirmDelete(BuildContext context, int id, String name) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -145,23 +152,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     if (confirmed == true && mounted) {
       final success =
-          await context.read<ShopProvider>().deleteShop(id);
+      await context.read<ShopProvider>().deleteShop(id);
       if (mounted) {
         _showSnackBar(
-          success ? '"$name" deleted' : 'Failed to delete shop',
-          isError: !success,
+          success ? '"$name" deleted successfully' : 'Failed to delete shop',
+          isError: true,
         );
       }
     }
   }
 
+  // snackbar
   void _showSnackBar(String message, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
-        backgroundColor:
-            isError ? AppTheme.error.withOpacity(0.9) : AppTheme.surfaceVariant,
+        content: Text(
+          message,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
+        ),
+        backgroundColor: isError ? AppTheme.error : AppTheme.success,
         duration: const Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -185,6 +201,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // header
   Widget _buildHeader() {
     return SlideTransition(
       position: _headerSlide,
@@ -245,6 +262,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // body
   Widget _buildBody() {
     return Consumer<ShopProvider>(
       builder: (context, provider, _) {
@@ -255,6 +273,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // list
   Widget _buildList(ShopProvider provider) {
     return ListView.builder(
       itemCount: provider.shops.length,
@@ -271,6 +290,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // loader
   Widget _buildLoader() {
     return const Center(
       child: CircularProgressIndicator(
@@ -280,6 +300,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // empty state
   Widget _buildEmptyState() {
     return Center(
       child: Column(
@@ -322,6 +343,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // fab
   Widget _buildFAB() {
     return Container(
       decoration: BoxDecoration(

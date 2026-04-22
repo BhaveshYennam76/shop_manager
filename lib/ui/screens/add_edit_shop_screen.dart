@@ -8,7 +8,6 @@ import 'package:shop_manager/providers/shop_provider.dart';
 import 'package:shop_manager/ui/widgets/custom_text_field.dart';
 import 'package:shop_manager/ui/widgets/primary_button.dart';
 
-/// Reusable screen for both adding a new shop and editing an existing one.
 class AddEditShopScreen extends StatefulWidget {
   final Shop? shopToEdit;
 
@@ -80,17 +79,20 @@ class _AddEditShopScreenState extends State<AddEditShopScreen>
     super.dispose();
   }
 
+  // basic required check
   String? _required(String? v) =>
       (v == null || v.trim().isEmpty) ? 'This field is required' : null;
 
+  // mobile validation
   String? _validateMobile(String? v) {
     if (v == null || v.trim().isEmpty) return 'Mobile number is required';
-    if (!RegExp(r'^\+?[0-9]{7,15}$').hasMatch(v.trim())) {
+    if (!RegExp(r'^\+?[0-9]{6,10}$').hasMatch(v.trim())) {
       return 'Enter a valid mobile number';
     }
     return null;
   }
 
+  // email validation
   String? _validateEmail(String? v) {
     if (v == null || v.trim().isEmpty) return 'Email is required';
     if (!RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,}$').hasMatch(v.trim())) {
@@ -130,23 +132,42 @@ class _AddEditShopScreenState extends State<AddEditShopScreen>
     }
   }
 
+  // success message
   void _showSuccessSnack() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           _isEditing ? 'Shop updated successfully' : 'Shop added successfully',
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
         ),
+        backgroundColor: AppTheme.success,
         duration: const Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
 
+  // error message
   void _showErrorSnack(String msg) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('$msg'),
-        backgroundColor: AppTheme.error.withOpacity(0.9),
+        content: Text(
+          msg,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
+        ),
+        backgroundColor: AppTheme.error,
         duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -174,6 +195,7 @@ class _AddEditShopScreenState extends State<AddEditShopScreen>
     );
   }
 
+  // top bar
   Widget _buildTopBar() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 12, 24, 0),
@@ -228,7 +250,7 @@ class _AddEditShopScreenState extends State<AddEditShopScreen>
           if (_isEditing)
             Container(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
                 color: AppTheme.primary.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(20),
@@ -249,6 +271,7 @@ class _AddEditShopScreenState extends State<AddEditShopScreen>
     );
   }
 
+  // form UI
   Widget _buildForm() {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(20, 24, 20, 40),
@@ -369,6 +392,7 @@ class _AddEditShopScreenState extends State<AddEditShopScreen>
     );
   }
 
+  // section label
   Widget _sectionLabel(String title) {
     return Row(
       children: [

@@ -2,8 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:shop_manager/data/database/database_helper.dart';
 import 'package:shop_manager/data/models/shop_model.dart';
 
-/// Manages the shop list state and exposes CRUD methods.
-/// Uses [ChangeNotifier] so widgets rebuild when data changes.
 class ShopProvider extends ChangeNotifier {
   final DatabaseHelper _db = DatabaseHelper.instance;
 
@@ -11,28 +9,25 @@ class ShopProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
 
-  // ── Getters ───────────────────────────────────────────────────────────────
-
+  // getters
   List<Shop> get shops => List.unmodifiable(_shops);
   bool get isLoading => _isLoading;
   String? get error => _error;
   bool get isEmpty => _shops.isEmpty;
 
-  // ── Private Helpers ───────────────────────────────────────────────────────
-
+  // loading state
   void _setLoading(bool value) {
     _isLoading = value;
     notifyListeners();
   }
 
+  // error state
   void _setError(String? msg) {
     _error = msg;
     notifyListeners();
   }
 
-  // ── Public API ────────────────────────────────────────────────────────────
-
-  /// Loads all shops from the database into [_shops].
+  // fetch shops
   Future<void> fetchShops() async {
     _setLoading(true);
     _setError(null);
@@ -45,7 +40,7 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
-  /// Inserts a new [Shop] and refreshes the list.
+  // add shop
   Future<bool> addShop(Shop shop) async {
     try {
       await _db.insertShop(shop);
@@ -57,7 +52,7 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
-  /// Updates an existing [Shop] and refreshes the list.
+  // update shop
   Future<bool> updateShop(Shop shop) async {
     try {
       await _db.updateShop(shop);
@@ -69,13 +64,15 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
-  /// Deletes the shop with [id] and refreshes the list.
+  // delete shop
   Future<bool> deleteShop(int id) async {
     try {
       await _db.deleteShop(id);
-      // Optimistically remove from list for instant UI feedback.
+
+      // remove locally for quick UI update
       _shops.removeWhere((s) => s.id == id);
       notifyListeners();
+
       return true;
     } catch (e) {
       _setError('Failed to delete shop: $e');
@@ -83,6 +80,6 @@ class ShopProvider extends ChangeNotifier {
     }
   }
 
-  /// Clears any stored error message.
+  // clear error
   void clearError() => _setError(null);
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shop_manager/core/theme/app_theme.dart';
 
-/// Shop card widget.
 class PrimaryButton extends StatefulWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -72,11 +71,11 @@ class _PrimaryButtonState extends State<PrimaryButton>
           decoration: BoxDecoration(
             gradient: isDisabled
                 ? LinearGradient(
-                    colors: [
-                      AppTheme.primary.withOpacity(0.4),
-                      AppTheme.primaryDark.withOpacity(0.4),
-                    ],
-                  )
+              colors: [
+                AppTheme.primary.withOpacity(0.4),
+                AppTheme.primaryDark.withOpacity(0.4),
+              ],
+            )
                 : AppTheme.primaryGradient,
             borderRadius: BorderRadius.circular(16),
             boxShadow: isDisabled ? [] : AppTheme.buttonShadow,
@@ -84,31 +83,31 @@ class _PrimaryButtonState extends State<PrimaryButton>
           child: Center(
             child: widget.isLoading
                 ? const SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                      strokeWidth: 2.5,
-                    ),
-                  )
+              width: 22,
+              height: 22,
+              child: CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2.5,
+              ),
+            )
                 : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (widget.icon != null) ...[
-                        Icon(widget.icon, size: 20, color: Colors.white),
-                        const SizedBox(width: 8),
-                      ],
-                      Text(
-                        widget.label,
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          letterSpacing: 0.4,
-                        ),
-                      ),
-                    ],
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (widget.icon != null) ...[
+                  Icon(widget.icon, size: 20, color: Colors.white),
+                  const SizedBox(width: 8),
+                ],
+                Text(
+                  widget.label,
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                    letterSpacing: 0.4,
                   ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,5 @@
 import 'package:shop_manager/core/constants/app_constants.dart';
 
-/// Shop model representing a single shop entity.
 class Shop {
   final int? id;
   final String name;
@@ -18,7 +17,7 @@ class Shop {
     required this.description,
   });
 
-  /// Creates a [Shop] from a database row map.
+  // map -> object
   factory Shop.fromMap(Map<String, dynamic> map) {
     return Shop(
       id: map[AppConstants.colId] as int?,
@@ -30,7 +29,7 @@ class Shop {
     );
   }
 
-  /// Converts this [Shop] to a database row map.
+  // object -> map
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{
       AppConstants.colName: name,
@@ -45,7 +44,7 @@ class Shop {
     return map;
   }
 
-  /// Returns a copy of this [Shop] with optionally updated fields.
+  // copy with changes
   Shop copyWith({
     int? id,
     String? name,
@@ -67,12 +66,12 @@ class Shop {
   @override
   String toString() =>
       'Shop(id: $id, name: $name, address: $address, mobile: $mobile, '
-      'email: $email, description: $description)';
+          'email: $email, description: $description)';
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Shop && runtimeType == other.runtimeType && id == other.id;
+          other is Shop && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Theme configuration.
 class AppTheme {
   AppTheme._();
 
-  // Palette
+  // colors
   static const Color primary = Color(0xFF6C63FF);
   static const Color primaryLight = Color(0xFF9D97FF);
   static const Color primaryDark = Color(0xFF4B44CC);
@@ -23,7 +22,7 @@ class AppTheme {
   static const Color success = Color(0xFF10B981);
   static const Color error = Color(0xFFEF4444);
 
-  // Gradients
+  // gradients
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [primary, Color(0xFF9D50BB)],
     begin: Alignment.topLeft,
@@ -39,7 +38,8 @@ class AppTheme {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
-  // Shadows
+
+  // shadows
   static List<BoxShadow> cardShadow = [
     BoxShadow(
       color: primary.withOpacity(0.08),
@@ -69,7 +69,7 @@ class AppTheme {
     ),
   ];
 
-  //  ThemeData
+  // theme
   static ThemeData get lightTheme {
     final base = ThemeData.light();
     return base.copyWith(
@@ -182,7 +182,7 @@ class AppTheme {
           borderSide: const BorderSide(color: error, width: 2),
         ),
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         hintStyle: GoogleFonts.poppins(
             fontSize: 14, color: textHint, fontWeight: FontWeight.w400),
         labelStyle: GoogleFonts.poppins(
@@ -198,11 +198,11 @@ class AppTheme {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
       dividerTheme:
-          const DividerThemeData(color: divider, thickness: 1, space: 1),
+      const DividerThemeData(color: divider, thickness: 1, space: 1),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: textPrimary,
         contentTextStyle:
-            GoogleFonts.poppins(color: Colors.white, fontSize: 14),
+        GoogleFonts.poppins(color: Colors.white, fontSize: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         behavior: SnackBarBehavior.floating,
       ),

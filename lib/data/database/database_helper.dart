@@ -3,22 +3,20 @@ import 'package:sqflite/sqflite.dart';
 import 'package:shop_manager/core/constants/app_constants.dart';
 import 'package:shop_manager/data/models/shop_model.dart';
 
-/// Singleton helper for all SQLite database operations.
 class DatabaseHelper {
   DatabaseHelper._internal();
   static final DatabaseHelper instance = DatabaseHelper._internal();
 
   static Database? _database;
 
-  /// Returns the existing database or initializes a new one.
+  // get db (init if needed)
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDatabase();
     return _database!;
   }
 
-  // ── Initialization ────────────────────────────────────────────────────────
-
+  // setup db
   Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, AppConstants.dbName);
@@ -31,7 +29,7 @@ class DatabaseHelper {
     );
   }
 
-  /// Creates the shops table on first run.
+  // create table
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE ${AppConstants.tableShops} (
@@ -45,14 +43,12 @@ class DatabaseHelper {
     ''');
   }
 
-  /// Handles future schema migrations.
+  // future upgrades
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    // Future migrations go here.
+    // handle schema changes later
   }
 
-  // ── CRUD ──────────────────────────────────────────────────────────────────
-
-  /// Inserts a [Shop] and returns its auto-generated id.
+  // insert
   Future<int> insertShop(Shop shop) async {
     final db = await database;
     return db.insert(
@@ -62,7 +58,7 @@ class DatabaseHelper {
     );
   }
 
-  /// Fetches all shops ordered by id descending (newest first).
+  // fetch all
   Future<List<Shop>> fetchAllShops() async {
     final db = await database;
     final maps = await db.query(
@@ -72,7 +68,7 @@ class DatabaseHelper {
     return maps.map(Shop.fromMap).toList();
   }
 
-  /// Updates an existing [Shop] by its id.
+  // update
   Future<int> updateShop(Shop shop) async {
     final db = await database;
     return db.update(
@@ -83,7 +79,7 @@ class DatabaseHelper {
     );
   }
 
-  /// Deletes a shop by its [id].
+  // delete
   Future<int> deleteShop(int id) async {
     final db = await database;
     return db.delete(
@@ -93,7 +89,7 @@ class DatabaseHelper {
     );
   }
 
-  /// Closes the database connection.
+  // close db
   Future<void> close() async {
     final db = await database;
     await db.close();

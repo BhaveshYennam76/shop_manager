@@ -3,12 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shop_manager/core/theme/app_theme.dart';
 import 'package:shop_manager/data/models/shop_model.dart';
 
-/// Shop card widget.
 class ShopCard extends StatefulWidget {
   final Shop shop;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
-  final int index; // Used for staggered animation offset
+  final int index;
 
   const ShopCard({
     super.key,
@@ -41,7 +40,6 @@ class _ShopCardState extends State<ShopCard>
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
-    // Stagger based on card index
     Future.delayed(Duration(milliseconds: widget.index * 80), () {
       if (mounted) _controller.forward();
     });
@@ -118,7 +116,6 @@ class _ShopCardState extends State<ShopCard>
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Avatar circle
         Container(
           width: 48,
           height: 48,
@@ -158,7 +155,7 @@ class _ShopCardState extends State<ShopCard>
               const SizedBox(height: 2),
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: AppTheme.primary.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(6),
@@ -198,7 +195,7 @@ class _ShopCardState extends State<ShopCard>
       {bool isMultiLine = false}) {
     return Row(
       crossAxisAlignment:
-          isMultiLine ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      isMultiLine ? CrossAxisAlignment.start : CrossAxisAlignment.center,
       children: [
         Icon(icon, size: 16, color: AppTheme.primary.withOpacity(0.7)),
         const SizedBox(width: 10),
@@ -208,7 +205,7 @@ class _ShopCardState extends State<ShopCard>
             maxLines: isMultiLine ? 3 : 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.poppins(
-               fontSize: 13,
+              fontSize: 13,
               color: AppTheme.textSecondary,
               fontWeight: FontWeight.w400,
               height: 1.5,
@@ -244,7 +241,6 @@ class _ShopCardState extends State<ShopCard>
   }
 }
 
-/// Internal action button used inside [ShopCard].
 class _ActionButton extends StatelessWidget {
   final String label;
   final IconData icon;

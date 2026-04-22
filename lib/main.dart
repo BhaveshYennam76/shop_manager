@@ -8,14 +8,8 @@ import 'package:shop_manager/ui/screens/splash_screen.dart';
 
 import 'firebase_options.dart';
 
-/// Application entry point.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,

@@ -5,8 +5,7 @@ import 'package:shop_manager/core/theme/app_theme.dart';
 import 'package:shop_manager/ui/screens/home_screen.dart';
 import 'package:shop_manager/ui/screens/login_screen.dart';
 
-/// Splash screen — shown on launch while auth is resolved.
-/// Performs anonymous sign-in if no user is logged in, then navigates to Home.
+// splash screen on app start
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -46,11 +45,13 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
       duration: const Duration(milliseconds: 700),
     );
-    _textOpacity = CurvedAnimation(parent: _textController, curve: Curves.easeOut);
+    _textOpacity =
+        CurvedAnimation(parent: _textController, curve: Curves.easeOut);
     _textSlide = Tween<Offset>(
       begin: const Offset(0, 0.3),
       end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _textController, curve: Curves.easeOutCubic));
+    ).animate(CurvedAnimation(
+        parent: _textController, curve: Curves.easeOutCubic));
 
     _pulseController = AnimationController(
       vsync: this,
@@ -73,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen>
     await _handleAuth();
   }
 
-  /// Checks if a user session exists, then navigates accordingly.
+  // check login and navigate
   Future<void> _handleAuth() async {
     final auth = FirebaseAuth.instance;
     final isLoggedIn = auth.currentUser != null;
@@ -88,6 +89,7 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
+  // navigate with fade
   void _navigateTo(Widget screen) {
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
@@ -99,7 +101,6 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
   }
-
 
   @override
   void dispose() {
@@ -113,15 +114,25 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(gradient: AppTheme.backgroundGradient),
+        decoration:
+        const BoxDecoration(gradient: AppTheme.backgroundGradient),
         child: SafeArea(
           child: Stack(
             children: [
-              _buildOrb(top: -80, right: -80, size: 260,
+              _buildOrb(
+                  top: -80,
+                  right: -80,
+                  size: 260,
                   color: AppTheme.primary.withOpacity(0.18)),
-              _buildOrb(bottom: -60, left: -60, size: 220,
+              _buildOrb(
+                  bottom: -60,
+                  left: -60,
+                  size: 220,
                   color: AppTheme.accent.withOpacity(0.12)),
-              _buildOrb(top: 180, left: 30, size: 120,
+              _buildOrb(
+                  top: 180,
+                  left: 30,
+                  size: 120,
                   color: AppTheme.primaryLight.withOpacity(0.08)),
 
               Center(
@@ -181,7 +192,8 @@ class _SplashScreenState extends State<SplashScreen>
                           children: [
                             ShaderMask(
                               shaderCallback: (bounds) =>
-                                  AppTheme.primaryGradient.createShader(bounds),
+                                  AppTheme.primaryGradient
+                                      .createShader(bounds),
                               child: Text(
                                 'My Shops',
                                 style: GoogleFonts.poppins(
@@ -249,6 +261,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
+  // background circle
   Widget _buildOrb({
     double? top,
     double? bottom,

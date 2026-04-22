@@ -26,22 +26,22 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _loginAsGuest() async {
     if (!_formKey.currentState!.validate()) return;
-    
+
     FocusScope.of(context).unfocus();
 
     setState(() => _isLoading = true);
 
     try {
       final userCredential = await FirebaseAuth.instance.signInAnonymously();
-      
-      // Update the user's display name
+
+      // set display name
       final name = _nameCtrl.text.trim();
       if (name.isNotEmpty) {
         await userCredential.user?.updateDisplayName(name);
       }
 
       if (!mounted) return;
-      
+
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
           pageBuilder: (_, animation, __) => const HomeScreen(),
@@ -55,8 +55,17 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Login failed: ${e.toString()}'),
+          content: Text(
+            'Login failed. Please try again.',
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
+          ),
           backgroundColor: AppTheme.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
       );
     } finally {
@@ -75,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SafeArea(
           child: Stack(
             children: [
-              // Decorative background elements
+              // background circles
               Positioned(
                 top: -80,
                 right: -80,
@@ -101,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
 
-              // Content
+              // content
               SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
                 padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
@@ -109,8 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const SizedBox(height: 60),
-                    
-                    // App Logo
+
+                    // logo
                     Center(
                       child: Container(
                         width: 80,
@@ -127,10 +136,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 32),
-                    
-                    // Welcome Title
+
+                    // title
                     Text(
                       'Welcome to\nMy Shops',
                       textAlign: TextAlign.center,
@@ -152,10 +161,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    
+
                     const SizedBox(height: 48),
-                    
-                    // Login Form
+
+                    // form
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
@@ -173,13 +182,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               hint: 'e.g. John Doe',
                               prefixIcon: Icons.person_outline_rounded,
                               textInputAction: TextInputAction.done,
-                              validator: (v) => (v == null || v.trim().isEmpty) 
-                                ? 'Please enter your name' 
-                                : null,
+                              validator: (v) => (v == null || v.trim().isEmpty)
+                                  ? 'Please enter your name'
+                                  : null,
                             ),
-                            
+
                             const SizedBox(height: 24),
-                            
+
                             PrimaryButton(
                               label: 'Continue as Guest',
                               icon: Icons.login_rounded,
